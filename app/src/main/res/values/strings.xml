@@ -1,0 +1,113 @@
+<resources>
+    <string name="app_name">ManishElectronics</string>
+    <string-array name="mumbai_geography">
+        <item>South Mumbai</item>
+        <item>Western Suburbs</item>
+        <item>Eastern Suburbs</item>
+    </string-array>
+    <string-array name="south_mumbai">
+        <item>Colaba</item>
+        <item>Parel</item>
+        <item>Dadar</item>
+    </string-array>
+    <string-array name="western_suburbs">
+        <item>Bandra</item>
+        <item>Andheri</item>
+        <item>Borivali</item>
+    </string-array>
+    <string-array name="eastern_suburbs">
+        <item>Thane</item>
+        <item>Kurla</item>
+        <item>Ghatkopar</item>
+    </string-array>
+    <string name="vendor_details">Vendor Details</string>
+    <string name="add_product">Add Product</string>
+    <string name="select_the_product">Select the products</string>
+    <string-array name="colaba_vendors">
+        <item>Akshay Enterprises</item>
+        <item>Bright Electronics</item>
+        <item>Carter Industries</item>
+    </string-array>
+    <string-array name="parel_vendors">
+        <item>Devion Electronics</item>
+        <item>Elegant Enterprises</item>
+        <item>Fork Industries</item>
+    </string-array>
+    <string-array name="dadar_vendors">
+        <item>Garewal Enterprises</item>
+        <item>Hitendra Electronics</item>
+        <item>Indian Industries</item>
+    </string-array>
+    <string-array name="bandra_vendors">
+        <item>Johnsons Enterprises</item>
+        <item>King Electronics</item>
+        <item>Lion Electronics</item>
+    </string-array>
+    <string-array name="andheri_vendors">
+        <item>Manish Electricals</item>
+        <item>Nene Enterprises</item>
+        <item>Oracle Industries</item>
+    </string-array>
+    <string-array name="borivali_vendors">
+        <item>Prakash Lights</item>
+        <item>Queen Industries</item>
+        <item>Raven Enterprises</item>
+    </string-array>
+    <string-array name="thane_vendors">
+        <item>Sachin Electricals</item>
+        <item>T.T. Industries</item>
+        <item>Universal Electronics</item>
+    </string-array>
+    <string-array name="kurla_vendors">
+        <item>Vighnesh Lights</item>
+        <item>Wharton Enterprises</item>
+        <item>Xenon Lights</item>
+    </string-array>
+    <string-array name="ghatkopar_vendors">
+        <item>Yatin Enterprises</item>
+        <item>Zagde and Zagde Sons</item>
+        <item>ABC Lights</item>
+    </string-array>
+    <string-array name="products">
+        <item>Fans</item>
+        <item>TVs</item>
+        <item>Mixer Grinders</item>
+        <item>Irons</item>
+        <item>Fridges</item>
+    </string-array>
+    <string-array name="fans">
+        <item>Bajaj New Bahar Ceiling Fan(Rs. 1369)</item>
+        <item>Havells Nicola Ceiling Fan(Rs. 2200)</item>
+        <item>Lifelong Ceiling Fan(Rs. 948)</item>
+        <item>Havells PacerCeiling Fan(Rs. 1649)</item>
+        <item>Usha New Trump Ceiling Fan(Rs. 1685)</item>
+    </string-array>
+    <string-array name="tvs">
+        <item>Micromax 80 cm(Rs. 13999)</item>
+        <item>TCL 81.28 cm (Rs. 12999)</item>
+        <item>Sanyo 109 cm(Rs. 25990)</item>
+        <item>Panasonic 80 cm(Rs. 16300)</item>
+        <item>Samsung 59 cm(Rs. 11990)</item>
+    </string-array>
+    <string-array name="mixers">
+        <item>Bajaj Rex Mixer Grinder (Rs. 1899)</item>
+        <item>Prestige Hero Mixer Grinder(Rs. 2067)</item>
+        <item>Pigeon Torrent Mixer Grinder with 3 Jars(Rs. 1695)</item>
+        <item>Hyundai Mixer Grinder(Rs. 1549)</item>
+        <item>Signora Care Mixer Grinder(Rs. 1290)</item>
+    </string-array>
+    <string-array name="irons">
+        <item>Orpat OEI 187 Dry Iron(Rs. 592)</item>
+        <item>Bajaj DX 7 Dry Iron(Rs. 680)</item>
+        <item>Maharaja Whiteline Dry Iron(Rs. 416)</item>
+        <item>Philips GC1905Steam Iron(Rs. 1455)</item>
+        <item>Usha Electric Dry Iron(Rs. 589)</item>
+    </string-array>
+    <string-array name="fridges">
+        <item>Kenstar NH163BBR-FDA (Rs. 8990)</item>
+        <item>Haier 2157 BS-R (Rs. 13999)</item>
+        <item>LG GL-B201AMLN (Rs. 15650)</item>
+        <item>Samsung RR19J21C3RJ (Rs. 14500)</item>
+        <item>Whirlpool Fp 263D (Rs. 24150)</item>
+    </string-array>
+</resources>
