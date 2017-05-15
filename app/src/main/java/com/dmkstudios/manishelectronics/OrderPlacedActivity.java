@@ -1,6 +1,7 @@
 package com.dmkstudios.manishelectronics;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -50,26 +51,36 @@ public class OrderPlacedActivity extends AppCompatActivity implements View.OnCli
 
     private void writeOrderToFile() {
         String newOrderFileName = vendorName.replace("\\s+", "") + "-" + getCurrentDate().replaceAll("/", "-") + ".txt";
-        try {
-            BufferedWriter orderWriter = new BufferedWriter(new OutputStreamWriter(openFileOutput(newOrderFileName, MODE_PRIVATE)));
-            orderWriter.append(vendorName + "\n");
-            orderWriter.append(vendorLocation + "\n");
-            orderWriter.append("Date: " + getCurrentDate() + "\n\n");
-            for (int i = 0; i < productQuantity.size(); i++) {
-                orderWriter.append("Product -> " + selectedProducts.get(i) + "\n");
-                orderWriter.append("Quantity -> " + productQuantity.get(i) + "\n");
-                orderWriter.append("Cost -> Rs. " + (productPrices.get(i) * productQuantity.get(i)) + "\n");
+        OrderLocationService orderLocationService = new OrderLocationService(getBaseContext());
+        Location myLocation = orderLocationService.getLocation();
+        if (myLocation != null) {
+            try {
+                BufferedWriter orderWriter = new BufferedWriter(new OutputStreamWriter(openFileOutput(newOrderFileName, MODE_PRIVATE)));
+                orderWriter.append("Latitude: " + String.valueOf(myLocation.getLatitude())
+                        + " Longitude: " + String.valueOf(myLocation.getLongitude()) + "\n");
+                orderWriter.append(vendorName + "\n");
+                orderWriter.append(vendorLocation + "\n");
+                orderWriter.append("Date: " + getCurrentDate() + "\n\n");
+                for (int i = 0; i < productQuantity.size(); i++) {
+                    orderWriter.append("Product -> " + selectedProducts.get(i) + "\n");
+                    orderWriter.append("Quantity -> " + productQuantity.get(i) + "\n");
+                    orderWriter.append("Cost -> Rs. " + (productPrices.get(i) * productQuantity.get(i)) + "\n");
+                }
+                if (paymentOptions.getCheckedRadioButtonId() == R.id.cash_radio) {
+                    orderWriter.append("Total Cost -> Rs. " + calculateNetAmount(10) + "\n");
+                } else {
+                    orderWriter.append("Total Cost -> Rs. " + calculateTotalAmount() + "\n");
+                }
+                orderWriter.flush();
+                orderWriter.close();
+                Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            if (paymentOptions.getCheckedRadioButtonId() == R.id.cash_radio) {
-                orderWriter.append("Total Cost -> Rs. " + calculateNetAmount(10) + "\n");
-            } else {
-                orderWriter.append("Total Cost -> Rs. " + calculateTotalAmount() + "\n");
-            }
-            orderWriter.flush();
-            orderWriter.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } else {
+            Toast.makeText(this, "Order cannot be placed!", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private double calculateTotalAmount() {
@@ -98,7 +109,6 @@ public class OrderPlacedActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.save_button:
                 writeOrderToFile();
-                Toast.makeText(getBaseContext(), "Order Saved!", Toast.LENGTH_SHORT).show();
                 logoutIntent = new Intent(OrderPlacedActivity.this, LogoutActivity.class);
                 startActivity(logoutIntent);
                 finish();

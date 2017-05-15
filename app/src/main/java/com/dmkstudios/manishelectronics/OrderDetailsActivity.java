@@ -48,6 +48,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         locationTextView = (TextView) findViewById(R.id.location_textview);
         locationTextView.setText("Vendor Location: " + region + ", " + location);
         vendorSpinner = (Spinner) findViewById(R.id.vendor_spinner);
+        vendorSpinner.requestFocus();
         loadVendors(region, location);
         productTypeSpinner = (Spinner) findViewById(R.id.product_type_spinner);
         productTypeSpinner.setOnItemSelectedListener(this);
@@ -65,25 +66,21 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.order_placed_button:
-                /*System.out.println(productPrices);
-                for(int i = 0; i < 5; i++) {
-                    System.out.println(productPrices[i]);
-                }
-                for(int i = 0; i < 5; i++) {
-                    System.out.println(productQuantity[i]);
-                }*/
-                vendorName = vendorSpinner.getSelectedItem().toString();
-                vendorLocation = locationTextView.getText().toString();
-                productBundle = new Bundle();
-                productBundle.putStringArrayList("selectedProducts", selectedProducts);
-                productBundle.putIntegerArrayList("productsPrices", productPrices);
-                productBundle.putIntegerArrayList("productQuantities", productQuantity);
-                productBundle.putString("vendorName", vendorName);
-                productBundle.putString("vendorLocation", vendorLocation);
-                placeOrderIntent = new Intent(OrderDetailsActivity.this, OrderPlacedActivity.class);
-                placeOrderIntent.putExtras(productBundle);
-                startActivity(placeOrderIntent);
-                finish();
+                if (!product.equals("") || !product.isEmpty()) {
+                    vendorName = vendorSpinner.getSelectedItem().toString();
+                    vendorLocation = locationTextView.getText().toString();
+                    productBundle = new Bundle();
+                    productBundle.putStringArrayList("selectedProducts", selectedProducts);
+                    productBundle.putIntegerArrayList("productsPrices", productPrices);
+                    productBundle.putIntegerArrayList("productQuantities", productQuantity);
+                    productBundle.putString("vendorName", vendorName);
+                    productBundle.putString("vendorLocation", vendorLocation);
+                    placeOrderIntent = new Intent(OrderDetailsActivity.this, OrderPlacedActivity.class);
+                    placeOrderIntent.putExtras(productBundle);
+                    startActivity(placeOrderIntent);
+                    finish();
+                } else
+                    Toast.makeText(this, "Your order list is empty!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.order_cancelled_button:
                 vendorName = vendorSpinner.getSelectedItem().toString();
@@ -102,14 +99,17 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
             case R.id.add_product_button:
                 if (selectedProductCounter < 5) {
                     String selectedProduct = productDetailSpinner.getSelectedItem().toString();
-                    String SelectedProductQty = productQty.getText().toString();
-                    productPrices.add(Integer.parseInt(selectedProduct.substring(selectedProduct.lastIndexOf("(") + 5, selectedProduct.lastIndexOf(")"))));
-                    productQuantity.add(Integer.parseInt(SelectedProductQty));
-                    selectedProducts.add(selectedProduct);
-                    product += productTypeSpinner.getSelectedItem().toString() + " - " + selectedProduct + "\t" + "(Qty: " + SelectedProductQty + ")\n";
-                    productDetailTv.setText(product);
-                    productQty.setText("");
-                    ++selectedProductCounter;
+                    String selectedProductQty = productQty.getText().toString();
+                    if (!selectedProductQty.equals("") || !selectedProductQty.isEmpty()) {
+                        productPrices.add(Integer.parseInt(selectedProduct.substring(selectedProduct.lastIndexOf("(") + 5, selectedProduct.lastIndexOf(")"))));
+                        productQuantity.add(Integer.parseInt(selectedProductQty));
+                        selectedProducts.add(selectedProduct);
+                        product += productTypeSpinner.getSelectedItem().toString() + " - " + selectedProduct + "\t" + "(Qty: " + selectedProductQty + ")\n";
+                        productDetailTv.setText(product);
+                        productQty.setText("");
+                        ++selectedProductCounter;
+                    } else
+                        Toast.makeText(this, "Please enter product quantity!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getBaseContext(), "You can add only upto 5 products", Toast.LENGTH_SHORT).show();
                     productQty.setText("");

@@ -22,13 +22,15 @@ public class OrderCancelledActivity extends AppCompatActivity {
     ArrayList<Integer> productPrices, productQuantity;
     ArrayList<String> selectedProducts;
     String vendorName = "", vendorLocation = "";
-    TextView orderCancelReason;
+    TextView orderCancelReason, dateView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_canceled);
         orderCancelReason = (TextView) findViewById(R.id.cancel_reason);
+        dateView = (TextView) this.findViewById(R.id.dateView);
+        dateView.setText("Date: " + getCurrentDate());
         selectedProductsIntent = getIntent();
         productBundle = selectedProductsIntent.getExtras();
         productPrices = productBundle.getIntegerArrayList("productsPrices");

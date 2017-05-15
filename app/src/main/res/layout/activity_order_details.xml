@@ -13,7 +13,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/order_buttons_layout"
         android:layout_alignParentTop="true">
 
         <LinearLayout
@@ -81,6 +80,7 @@
                 android:id="@+id/product_qty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:paddingBottom="@dimen/activity_horizontal_padding"
                 android:paddingLeft="@dimen/activity_vertical_padding"
                 android:paddingRight="@dimen/activity_vertical_padding"
@@ -105,33 +105,31 @@
                 android:paddingLeft="@dimen/activity_vertical_padding"
                 android:paddingRight="@dimen/activity_vertical_padding"
                 android:paddingTop="@dimen/activity_horizontal_padding" />
+
+            <LinearLayout
+                android:id="@+id/order_buttons_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true">
+
+                <Button
+                    android:id="@+id/order_placed_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Place Order"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/order_cancelled_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cancel Order"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/order_buttons_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
-
-        <Button
-            android:id="@+id/order_placed_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Place Order"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/order_cancelled_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancel Order"
-            android:textAllCaps="false" />
-
-    </LinearLayout>
-
-
 </RelativeLayout>
