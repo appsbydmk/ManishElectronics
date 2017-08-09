@@ -3,6 +3,7 @@ package com.dmkstudios.manishelectronics;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -53,29 +57,45 @@ public class OrderPlacedActivity extends AppCompatActivity implements View.OnCli
         String newOrderFileName = vendorName.replace("\\s+", "") + "-" + getCurrentDate().replaceAll("/", "-") + ".txt";
         OrderLocationService orderLocationService = new OrderLocationService(getBaseContext());
         Location myLocation = orderLocationService.getLocation();
+        File dataDir = Environment.getExternalStorageDirectory();
+        File orderDir = new File(dataDir.getAbsoluteFile() + "/ManishElectronics");
+        BufferedWriter orderWriter = null;
+
         if (myLocation != null) {
             try {
-                BufferedWriter orderWriter = new BufferedWriter(new OutputStreamWriter(openFileOutput(newOrderFileName, MODE_PRIVATE)));
-                orderWriter.append("Latitude: " + String.valueOf(myLocation.getLatitude())
-                        + " Longitude: " + String.valueOf(myLocation.getLongitude()) + "\n");
-                orderWriter.append(vendorName + "\n");
-                orderWriter.append(vendorLocation + "\n");
-                orderWriter.append("Date: " + getCurrentDate() + "\n\n");
-                for (int i = 0; i < productQuantity.size(); i++) {
-                    orderWriter.append("Product -> " + selectedProducts.get(i) + "\n");
-                    orderWriter.append("Quantity -> " + productQuantity.get(i) + "\n");
-                    orderWriter.append("Cost -> Rs. " + (productPrices.get(i) * productQuantity.get(i)) + "\n");
+                if (orderDir.exists()) {
+                    File newOrder = new File(orderDir, newOrderFileName);
+                    orderWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(newOrder)));
+                    orderWriter.append("Latitude: " + String.valueOf(myLocation.getLatitude())
+                            + " Longitude: " + String.valueOf(myLocation.getLongitude()) + "\n");
+                    orderWriter.append(vendorName + "\n");
+                    orderWriter.append(vendorLocation + "\n");
+                    orderWriter.append("Date: " + getCurrentDate() + "\n\n");
+                    for (int i = 0; i < productQuantity.size(); i++) {
+                        orderWriter.append("Product -> " + selectedProducts.get(i) + "\n");
+                        orderWriter.append("Quantity -> " + productQuantity.get(i) + "\n");
+                        orderWriter.append("Cost -> Rs. " + (productPrices.get(i) * productQuantity.get(i)) + "\n");
+                    }
+                    if (paymentOptions.getCheckedRadioButtonId() == R.id.cash_radio) {
+                        orderWriter.append("Total Cost -> Rs. " + calculateNetAmount(10) + "\n");
+                    } else {
+                        orderWriter.append("Total Cost -> Rs. " + calculateTotalAmount() + "\n");
+                    }
+                    orderWriter.flush();
+                    orderWriter.close();
+                    Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show();
                 }
-                if (paymentOptions.getCheckedRadioButtonId() == R.id.cash_radio) {
-                    orderWriter.append("Total Cost -> Rs. " + calculateNetAmount(10) + "\n");
-                } else {
-                    orderWriter.append("Total Cost -> Rs. " + calculateTotalAmount() + "\n");
-                }
-                orderWriter.flush();
-                orderWriter.close();
-                Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show();
+                //BufferedWriter orderWriter = new BufferedWriter(new OutputStreamWriter(openFileOutput(newOrderFileName, MODE_PRIVATE)));
+
             } catch (Exception ex) {
                 ex.printStackTrace();
+            } finally {
+                try {
+                    if (orderWriter != null)
+                        orderWriter.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         } else {
             Toast.makeText(this, "Order cannot be placed!", Toast.LENGTH_SHORT).show();

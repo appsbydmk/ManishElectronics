@@ -3,11 +3,14 @@ package com.dmkstudios.manishelectronics;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     EditText userName, password;
@@ -24,6 +27,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         password = (EditText) findViewById(R.id.password);
         loginButton = (Button) findViewById(R.id.login_button);
         loginButton.setOnClickListener(this);
+        try {
+            File dataDir = Environment.getExternalStorageDirectory();
+            File orderDir = new File(dataDir.getAbsoluteFile() + "/ManishElectronics");
+            orderDir.mkdirs();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

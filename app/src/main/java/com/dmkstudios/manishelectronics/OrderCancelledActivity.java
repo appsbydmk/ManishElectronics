@@ -2,6 +2,7 @@ package com.dmkstudios.manishelectronics;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,8 +48,12 @@ public class OrderCancelledActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String newOrderFileName = vendorName.replace("\\s+", "") + "-" + "OrderCancelled" + ".txt";
+                File dataDir = Environment.getExternalStorageDirectory();
+                File orderDir = new File(dataDir.getAbsoluteFile() + "/ManishElectronics");
+                BufferedWriter orderWriter = null;
                 try {
-                    BufferedWriter orderWriter = new BufferedWriter(new OutputStreamWriter(openFileOutput(newOrderFileName, MODE_PRIVATE)));
+                    File newOrder = new File(orderDir, newOrderFileName);
+                    orderWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(newOrder)));
                     orderWriter.append(vendorName + "\n");
                     orderWriter.append(vendorLocation + "\n");
                     orderWriter.append("Date: " + getCurrentDate() + "\n\n");
@@ -58,6 +66,13 @@ public class OrderCancelledActivity extends AppCompatActivity {
                     orderWriter.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                } finally {
+                    try {
+                        if (orderWriter != null)
+                            orderWriter.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 orderCancelReason.setText("");
                 Toast.makeText(getBaseContext(), "Order Cancelled!", Toast.LENGTH_SHORT).show();
